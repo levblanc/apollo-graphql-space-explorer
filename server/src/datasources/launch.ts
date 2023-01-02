@@ -25,8 +25,8 @@ class LaunchAPI extends RESTDataSource {
       site: launch_site && launch_site.site_name,
       mission: {
         name: mission_name,
-        missionPatchSmall: links.mission_launch_patch_small,
-        missionPatchLarge: links.mission_launch_patch,
+        missionPatchSmall: links.mission_patch_small,
+        missionPatchLarge: links.mission_patch,
       },
       rocket: {
         id: rocket && rocket.rocket_id,
