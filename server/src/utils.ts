@@ -1,4 +1,5 @@
-import SQL from 'sequelize';
+import { Sequelize, DataType } from 'sequelize-typescript';
+import { Op } from 'sequelize';
 
 export const paginateResults = ({
   after: cursor,
@@ -12,7 +13,8 @@ export const paginateResults = ({
   if (!cursor) return results.slice(0, pageSize);
   const cursorIndex = results.findIndex((item) => {
     // if an item has a `cursor` on it, use that, otherwise try to generate one
-    let itemCursor = item.cursor ? item.cursor : getCursor(item);
+    // let itemCursor = item.cursor ? item.cursor : getCursor(item);
+    let itemCursor = item.cursor ? item.cursor : getCursor();
 
     // if there's still not a cursor, return false by default
     return itemCursor ? cursor === itemCursor : false;
@@ -29,12 +31,11 @@ export const paginateResults = ({
 };
 
 export const createStore = () => {
-  const Op = SQL.Op;
   const operatorsAliases = {
     $in: Op.in,
   };
 
-  const db = new SQL('database', 'username', 'password', {
+  const db = new Sequelize('database', 'username', 'password', {
     dialect: 'sqlite',
     storage: './store.sqlite',
     operatorsAliases,
@@ -43,26 +44,26 @@ export const createStore = () => {
 
   const users = db.define('user', {
     id: {
-      type: SQL.INTEGER,
+      type: DataType.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    createdAt: SQL.DATE,
-    updatedAt: SQL.DATE,
-    email: SQL.STRING,
-    token: SQL.STRING,
+    createdAt: DataType.DATE,
+    updatedAt: DataType.DATE,
+    email: DataType.STRING,
+    token: DataType.STRING,
   });
 
   const trips = db.define('trip', {
     id: {
-      type: SQL.INTEGER,
+      type: DataType.INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
-    createdAt: SQL.DATE,
-    updatedAt: SQL.DATE,
-    launchId: SQL.INTEGER,
-    userId: SQL.INTEGER,
+    createdAt: DataType.DATE,
+    updatedAt: DataType.DATE,
+    launchId: DataType.INTEGER,
+    userId: DataType.INTEGER,
   });
 
   return { users, trips };
