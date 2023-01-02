@@ -2,12 +2,14 @@ import 'dotenv/config';
 
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer } from '@apollo/server/standalone';
-import typeDefs from './schema';
 import UserAPI from './datasources/user';
 import LaunchAPI from './datasources/launch';
+import typeDefs from './schema';
+import resolvers from './resolvers';
 
 const server = new ApolloServer({
   typeDefs,
+  resolvers,
 });
 
 const { url } = await startStandaloneServer(server, {
