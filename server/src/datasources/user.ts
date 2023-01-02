@@ -1,11 +1,9 @@
 import isEmail from 'isemail';
-import { createStore } from '../utils';
 
 class UserAPI {
   private store;
 
-  constructor() {
-    const store = createStore();
+  constructor({ store }) {
     this.store = store;
   }
 

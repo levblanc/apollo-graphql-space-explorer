@@ -26,8 +26,18 @@ const resolvers = {
     launch: (_, { id }, { dataSources }) => {
       return dataSources.launchAPI.getLaunchById(id);
     },
-    me: (_, __, { dataSources }) => {
-      return dataSources.userAPI.findOrCreateUser();
+    me: (_, __, { user, dataSources }) => {
+      return dataSources.userAPI.findOrCreateUser({ user });
+    },
+  },
+  Mutation: {
+    login: async (_, { email }, { dataSources }) => {
+      const user = await dataSources.userAPI.findOrCreateUser({ email });
+
+      if (user) {
+        user.token = Buffer.from(email).toString('base64');
+        return user;
+      }
     },
   },
   Mission: {
