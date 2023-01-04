@@ -39,6 +39,72 @@ const resolvers = {
         return user;
       }
     },
+    bookTrips: async (_, { launchIds }, { user, dataSources }) => {
+      try {
+        const results = await dataSources.userAPI.bookTrips({
+          user,
+          launchIds,
+        });
+        const launches = await dataSources.launchAPI.getLaunchesByIds({
+          launchIds,
+        });
+
+        if (results && results.length === launchIds.length) {
+          return {
+            code: 200,
+            success: true,
+            message: 'Trips booked successfully',
+            launches,
+          };
+        } else {
+          const failedLaunches = launchIds.filter(
+            (id) => !results.includes(id)
+          );
+
+          return {
+            code: 400,
+            success: false,
+            message: `The following launches couldn't be booked: ${failedLaunches}`,
+            launches,
+          };
+        }
+      } catch (error) {
+        return {
+          code: 400,
+          success: false,
+          message: error,
+          launches: [],
+        };
+      }
+    },
+    cancelTrip: async (_, { launchId }, { user, dataSources }) => {
+      try {
+        const result = await dataSources.userAPI.cancelTrip({ user, launchId });
+
+        if (!result) {
+          return {
+            code: 400,
+            success: false,
+            message: 'Failed to cancel trip',
+          };
+        }
+
+        const launch = await dataSources.launchAPI.getLaunchById({ launchId });
+        return {
+          code: 200,
+          success: true,
+          message: 'Trip canceled',
+          launches: [launch],
+        };
+      } catch (error) {
+        return {
+          code: 400,
+          success: false,
+          message: error,
+          launches: [],
+        };
+      }
+    },
   },
   Mission: {
     missionPatch: (
