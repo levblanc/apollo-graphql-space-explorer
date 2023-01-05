@@ -13,6 +13,10 @@ const avatars = [dog1, dog2, dog3];
 const maxIndex = avatars.length - 1;
 
 function pickAvatarByEmail(email: string) {
+  if (!email) {
+    return avatars[0];
+  }
+
   const charCode = email.toLowerCase().charCodeAt(0) - offset;
   const percentile = Math.max(0, Math.min(max, charCode)) / max;
   return avatars[Math.round(maxIndex * percentile)];
@@ -23,20 +27,24 @@ interface HeaderProps {
   children?: any;
 }
 
-const Header: React.FC<HeaderProps> = ({ image, children = 'Space Explorer' }) => {
-  const email = window.atob(localStorage.getItem('token') as string);
+const Header: React.FC<HeaderProps> = ({
+  image,
+  children = 'Space Explorer',
+}) => {
+  const localToken: string | null = localStorage.getItem('token');
+  const email = localToken ? window.atob(localToken) : '';
   const avatar = image || pickAvatarByEmail(email);
 
   return (
     <Container>
-      <Image round={!image} src={avatar} alt="Space dog" />
+      <Image round={!image} src={avatar} alt='Space dog' />
       <div>
         <h2>{children}</h2>
         <Subheading>{email}</Subheading>
       </div>
     </Container>
   );
-}
+};
 
 export default Header;
 
