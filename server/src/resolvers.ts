@@ -24,7 +24,7 @@ const resolvers = {
       };
     },
     launch: (_, { id }, { dataSources }) => {
-      return dataSources.launchAPI.getLaunchById(id);
+      return dataSources.launchAPI.getLaunchById({ launchId: id });
     },
     me: (_, __, { user, dataSources }) => {
       return dataSources.userAPI.findOrCreateUser({ user });
