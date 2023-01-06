@@ -12,11 +12,20 @@ export const menuItemClassName = css({
   letterSpacing: 1.5,
   textTransform: 'uppercase',
   textAlign: 'center',
+  padding: 5,
+  borderRadius: 10,
   svg: {
     display: 'block',
     width: 60,
     margin: `0 auto ${unit}px`,
     fill: colors.secondary,
+  },
+  '&:hover': {
+    color: 'white',
+    background: colors.secondary,
+    svg: {
+      fill: 'white',
+    },
   },
 });
 
