@@ -12,6 +12,9 @@ import injectStyles from './styles';
 const client = new ApolloClient<NormalizedCacheObject>({
   cache,
   uri: 'http://localhost:4000/graphql',
+  headers: {
+    authorization: localStorage.getItem('apollo_space_explorer_token') || '',
+  },
 });
 
 injectStyles();
