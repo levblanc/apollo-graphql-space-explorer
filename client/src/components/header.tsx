@@ -6,6 +6,7 @@ import { unit, colors } from '../styles';
 import dog1 from '../assets/images/dog-1.png';
 import dog2 from '../assets/images/dog-2.png';
 import dog3 from '../assets/images/dog-3.png';
+import { TOKEN } from '../constants';
 
 const max = 25; // 25 letters in the alphabet
 const offset = 97; // letter A's charcode is 97
@@ -31,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
   image,
   children = 'Space Explorer',
 }) => {
-  const localToken: string | null = localStorage.getItem('token');
+  const localToken: string | null = localStorage.getItem(TOKEN);
   const email = localToken ? window.atob(localToken) : '';
   const avatar = image || pickAvatarByEmail(email);
 
