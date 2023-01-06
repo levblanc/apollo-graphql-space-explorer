@@ -120,8 +120,8 @@ const resolvers = {
     },
   },
   User: {
-    trips: async (_, __, { dataSources }) => {
-      const launchIds = await dataSources.userAPI.getLaunchIdsByUser();
+    trips: async (_, __, { user, dataSources }) => {
+      const launchIds = await dataSources.userAPI.getLaunchIdsByUser({ user });
 
       if (!launchIds.length) {
         return [];
