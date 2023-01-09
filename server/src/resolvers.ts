@@ -115,8 +115,11 @@ const resolvers = {
     },
   },
   Launch: {
-    isBooked: async (launch, _, { dataSources }) => {
-      return dataSources.userAPI.isBookedOnLaunch({ launchId: launch.id });
+    isBooked: async (launch, _, { user, dataSources }) => {
+      return dataSources.userAPI.isBookedOnLaunch({
+        user,
+        launchId: launch.id,
+      });
     },
   },
   User: {
